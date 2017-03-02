@@ -5,9 +5,6 @@ Created on Sun Feb 26 11:43:02 2017
 
 @author: zhenshan
 """
-
-import unittest
-
 class Node():
     def __init__(self, data=None, nextNode=None):
         self.data = data

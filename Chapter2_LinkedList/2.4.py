@@ -4,50 +4,44 @@
 Created on Sun Feb 26 11:43:47 2017
 @author: zhenshan
 """
-
+#==============================================================================
+# Summry:
+#     1. Edge case: tail and switch node is the same one
+#     2. Binary problem: only select the ones smaller than k to previous
+#==============================================================================
+# time: O(n), Space: O(1)
 import unittest
-from MyLinkedList import LinkedList
+import MyLinkedList 
 
-def Partition(linkedList, k):
-    head = linkedList.head
+def Partition(head, k):
     if head == None:
         return head
     
-    tail = head
-    length = 0
-    while tail.GetNext() != None:
-        tail = tail.GetNext()
-        length += 1
-    
-    counter = 0
-    node = head.GetNext() #Start from second node
+    node = head.GetNext()
     headOld = head
-    while counter < length:
+    while node:
         if node.GetData() < k:
             tempNode = node.GetNext()
             node.SetNext(head)
             head = node
             node = tempNode
+            headOld.SetNext(node)
         else:
-            tempNode = node.GetNext()
-            tail.SetNext(node)
-            tail = node
-            node = tempNode
-        headOld.SetNext(node)# Remove the head link
-        counter += 1
-    tail.SetNext(None)
+            headOld = node
+            node = node.GetNext()
     
-    return linkedList.GetDataList()
+    result = MyLinkedList.LinkedList(head)
+    return result.GetDataList()
 
 class Test(unittest.TestCase):
     testObject = [([1,2,3,4], 3.5, [3,2,1,4]),
-                  ([1,2], 3, [2,1])]
+                  ([1,2,3,4], 5, [4,3,2,1]),
+                  ([1,2,3,4], 0, [1,2,3,4])]
     
     def testParition(self):
         for [testList, k, expected] in self.testObject:
-            testLinkedList = LinkedList()
-            testLinkedList.BuildUp(testList)
-            actual = Partition(testLinkedList, k)
+            testLinkedList = MyLinkedList.LinkedList(listData = testList)
+            actual = Partition(testLinkedList.head, k)
             self.assertEqual(actual, expected)
     
 if __name__ == "__main__":

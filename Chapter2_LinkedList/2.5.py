@@ -5,7 +5,10 @@ Created on Mon Feb 27 13:39:07 2017
 
 @author: zhenshan
 """
-
+#==============================================================================
+# Summary: 
+#   Start current node from head and pre node as None
+#==============================================================================
 import unittest
 import MyLinkedList
 
@@ -44,21 +47,19 @@ def AddTwo(head1, head2):
     return MyLinkedList.LinkedList(dummyHead.GetNext())
 
 def Reverse(head):
+    '''Two nodes reverse a linkedlist'''
     if head == None or head.GetNext() == None:
-        return head
+        return MyLinkedList.LinkedList(head)
     
-    pre = head
-    current = head.GetNext()
-    nex = head.GetNext().GetNext()
-
-    while current.GetNext() != None:
+    pre = None
+    current = head
+    while current != None:
+        temp = current.GetNext()
         current.SetNext(pre)
-        pre = current
-        current = nex
-        nex = nex.GetNext()
-    current.SetNext(pre)
-
-    return MyLinkedList.LinkedList(current)
+        pre = current   
+        current = temp
+    
+    return MyLinkedList.LinkedList(pre)
     
 
 class Test(unittest.TestCase):
@@ -80,7 +81,7 @@ class Test(unittest.TestCase):
             self.assertEqual(actual, expected)
     
     def testReverse(self):
-        """follow up: first reverse the list, them calculate as before"""
+        """follow up: first reverse the list, them add two number together"""
         for [testList, expected] in self.testObject1:
             linkedList = MyLinkedList.LinkedList(listData = testList)
             actual = Reverse(linkedList.head).GetDataList()
@@ -89,5 +90,5 @@ class Test(unittest.TestCase):
             
 if __name__ == "__main__":
     unittest.main()
-    
+
     
