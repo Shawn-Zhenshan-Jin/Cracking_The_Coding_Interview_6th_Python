@@ -24,6 +24,27 @@ def PalindromeChecker(head):
         idx += 1
     return True
 
+def PalindromeRunner(head):
+    if head != None or head.GetNext() != None:
+        return True
+    
+    slow = fast = head
+    half = []
+    while fast.GetNext() != None and fast.GetNext() != None:
+        half.append(slow.GetData())
+        slow = slow.GetNext()
+        fast = fast.GetNext().GetNext()
+        
+    if fast != None:
+        slow = slow.GetNext()
+    
+    while slow != None:
+        if slow.GetData() != half.pop():
+            return False
+        slow = slow.GetNext()
+    
+    return True
+
 class Test(unittest.TestCase):
     testObject = [([1,2,3,3,2,1], True),
                   ([1,2,3,2,1], True),
